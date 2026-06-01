@@ -8,6 +8,7 @@ uniform float alphaTestRef = 0.1;
 in vec2 lmcoord;
 in vec2 texcoord;
 in vec4 glcolor;
+in vec3 normal;
 
 /* RENDERTARGETS: 0 */
 layout(location = 0) out vec4 color;
@@ -18,4 +19,5 @@ void main() {
 	if (color.a < alphaTestRef) {
 		discard;
 	}
+	color.rgb = normal;
 }
