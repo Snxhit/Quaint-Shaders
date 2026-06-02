@@ -7,11 +7,14 @@ uniform sampler2D depthtex0;
 uniform sampler2D shadowtex0;
 uniform sampler2D shadowtex1;
 uniform sampler2D shadowcolor0;
+uniform sampler2D noisetex;
 uniform vec3 shadowLightPosition;
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 shadowProjection;
 uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
+uniform float viewWidth;
+uniform float viewHeight;
 
 #define SHADOW_RADIUS 1
 #define SHADOW_RANGE 4
@@ -42,13 +45,27 @@ vec3 getShadow(vec3 shadowScreenPos) {
 	return shadowColor.rgb * (1.0 - shadowColor.a);
 }
 
+vec4 getNoise(vec2 coord) {
+	ivec2 screenCoord = ivec2(coord * vec2(viewWidth, viewHeight));
+	ivec2 noiseCoord = screenCoord % 64;
+	return texelFetch(noisetex, noiseCoord, 0);
+}
+
 vec3 getSoftShadow(vec4 shadowClipPos) {
 	vec3 shadowAccum = vec3(0.0);
 	const int samples = SHADOW_RANGE * SHADOW_RANGE * 4;
+	float noise = getNoise(texcoord).r;
+
+	float theta = noise * radians(360.0);
+	float cosTheta = cos(theta);
+	float sinTheta = sin(theta);
+	
+	mat2 rotation = mat2(cosTheta, -sinTheta, sinTheta, cosTheta);
 
 	for (int x = -SHADOW_RANGE; x < SHADOW_RANGE; x++) {
 		for (int y = -SHADOW_RANGE; y < SHADOW_RANGE; y++) {
 			vec2 offset = vec2(x, y) * SHADOW_RADIUS / float(SHADOW_RANGE);
+			offset = rotation * offset;
 			offset /= shadowMapResolution;
 			vec4 offsetShadowClipPos = shadowClipPos + vec4(offset, 0.0, 0.0);
 			offsetShadowClipPos.z -= 0.001;
