@@ -1,3 +1,16 @@
+/*
+Sobel kernels are used for edge detection
+-1 0 1
+-2 0 2
+-1 0 1
+and
+1   0  0
+0   0  0
+-1 -2 -1
+
+gradients are calculated w them
+*/
+
 #version 330 compatibility
 
 uniform sampler2D colortex0;
@@ -5,6 +18,8 @@ uniform sampler2D colortex2; // normal data from terrain gbuffer
 uniform sampler2D depthtex0;
 uniform float near;
 uniform float far;
+uniform float viewWidth;
+uniform float viewHeight;
 
 in vec2 texcoord;
 
@@ -16,18 +31,37 @@ float linearizeDepth(float depth) {
 }
 
 void main() {
+    vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * 5.0;
     // left col
-    float topleft = linearizeDepth(texture(depthtex0, vec2(texcoord.x - 1, texcoord.y - 1)).r);
-    float left = linearizeDepth(texture(depthtex0, vec2(texcoord.x - 1, texcoord.y)).r);
-    float bottomleft = linearizeDepth(texture(depthtex0, vec2(texcoord.x - 1, texcoord.y + 1)).r);
+    float topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
+    float left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
+    float bottomleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 1.0) * texelsize).r);
     // mid col
-    float top = linearizeDepth(texture(depthtex0, vec2(texcoord.x, texcoord.y + 1)).r);
-    float mid = linearizeDepth(texture(depthtex0, texcoord).r);
-    float bottom = linearizeDepth(texture(depthtex0, vec2(texcoord.x, texcoord.y - 1)).r);
+    float top = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, 1.0) * texelsize).r);
+    float mid = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, 0.0) * texelsize).r);
+    float bottom = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, -1.0) * texelsize).r);
     // right col
-    float topright = linearizeDepth(texture(depthtex0, vec2(texcoord.x + 1, texcoord.y - 1)).r);
-    float right = linearizeDepth(texture(depthtex0, vec2(texcoord.x + 1, texcoord.y)).r);
-    float bottomright = linearizeDepth(texture(depthtex0, vec2(texcoord.x + 1, texcoord.y + 1)).r);
+    float topright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, -1.0) * texelsize).r);
+    float right = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 0.0) * texelsize).r);
+    float bottomright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 1.0) * texelsize).r);
 
-    color.rgb = texture(colortex0, texcoord);
+    float horizontalgradient = -topleft + topright - (2 * left) + (2 * right) - bottomleft + bottomright;
+    float verticalgradient = topleft + (2 * top) + topright - bottomleft - (2 * bottom) - bottomright;
+    float gradientmagnitude = sqrt((horizontalgradient * horizontalgradient) + (verticalgradient * verticalgradient));
+
+    float edgeFactor = smoothstep(0.3, 0.7, gradientmagnitude);
+
+    // todo:
+    // - vary outline width with distance
+    // - leaf block holes are exempt
+    // - make it smoother
+    // - color it according to the block colors
+
+    if (gradientmagnitude > 0.1) {
+        color.rgb = mix(texture(colortex0, texcoord).rgb, vec3(0.0), edgeFactor);
+        color.rgb = vec3(0.0);
+        color.a = 0.5;
+    } else {
+        color.rgb = texture(colortex0, texcoord).rgb;
+    }
 }
