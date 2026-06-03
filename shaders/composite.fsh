@@ -15,6 +15,8 @@ uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
 uniform float viewWidth;
 uniform float viewHeight;
+// TODO: Vary lighting according to daynight cycle
+uniform int dayTime;
 
 #define SHADOW_RADIUS 1
 #define SHADOW_RANGE 4
