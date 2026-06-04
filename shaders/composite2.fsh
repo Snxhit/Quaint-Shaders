@@ -31,7 +31,7 @@ float linearizeDepth(float depth) {
 }
 
 void main() {
-    vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * 5.0;
+    vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * 2.0;
     // left col
     float topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
     float left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
@@ -48,19 +48,26 @@ void main() {
     float horizontalgradient = -topleft + topright - (2 * left) + (2 * right) - bottomleft + bottomright;
     float verticalgradient = topleft + (2 * top) + topright - bottomleft - (2 * bottom) - bottomright;
     float gradientmagnitude = sqrt((horizontalgradient * horizontalgradient) + (verticalgradient * verticalgradient));
+    gradientmagnitude /= max(mid * 0.1, 1.0);
 
     float edgeFactor = smoothstep(0.3, 0.7, gradientmagnitude);
 
+    vec3 baseColor = texture(colortex0, texcoord).rgb;
+    vec3 outlineColor = mix(baseColor, vec3(1.0), 0.5);
+    float outlineAlpha = 0.6;
+
     // todo:
-    // - vary outline width with distance
     // - leaf block holes are exempt
     // - make it smoother
     // - color it according to the block colors
 
-    if (gradientmagnitude > 0.1) {
-        color.rgb = mix(texture(colortex0, texcoord).rgb, vec3(0.0), edgeFactor);
-        color.rgb = vec3(0.0);
-        color.a = 0.5;
+    if (linearizeDepth(texture(depthtex0, texcoord).r) > 0.5) {
+        color.rgb = texture(colortex0, texcoord).rgb;
+        return;
+    }
+
+    if (gradientmagnitude > 0.01) {
+        color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
     } else {
         color.rgb = texture(colortex0, texcoord).rgb;
     }
