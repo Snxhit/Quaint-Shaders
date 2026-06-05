@@ -5,6 +5,8 @@
 
 uniform sampler2D colortex0;
 
+#define BLOOM_THRESHOLD 0.7
+
 in vec2 texcoord;
 
 layout(location = 0) out vec4 outColor;
@@ -17,10 +19,9 @@ float getLuminance(vec3 color) {
 void main() {
     vec3 pixelColor = texture(colortex0, texcoord).rgb;
 
-    float threshold = 0.5;
     vec3 brightColor = vec3(0.0);
 
-    if (getLuminance(pixelColor) > threshold) {
+    if (getLuminance(pixelColor) > BLOOM_THRESHOLD) {
         brightColor = pixelColor;
     }
 
