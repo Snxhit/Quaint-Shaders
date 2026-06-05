@@ -18,7 +18,7 @@ uniform float viewHeight;
 // TODO: Vary lighting according to daynight cycle
 uniform int dayTime;
 
-#define SHADOW_RADIUS 1
+#define SHADOW_RADIUS 2
 #define SHADOW_RANGE 4
 
 #include "/lib/distort.glsl"
