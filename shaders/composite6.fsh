@@ -1,21 +1,22 @@
 #version 330 compatibility
 
-// ts file for chromatic abberation
+// ts file for chromatic aberration
 
 uniform sampler2D colortex0;
 
 in vec2 texcoord;
 
-#define CHROMATIC_ABBERATION
+#define CHROMATIC_ABERRATION
+#define CHROMATIC_ABERRATION_STRENGTH 0.05
 
 /* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
 
 void main() {
-    #ifdef CHROMATIC_ABBERATION
+    #ifdef CHROMATIC_ABERRATION
         vec2 toPixel = texcoord - vec2(0.5, 0.5);
         float falloff = dot(toPixel, toPixel);
-        vec2 coordOffset = toPixel * falloff * 0.05;
+        vec2 coordOffset = toPixel * falloff * CHROMATIC_ABERRATION_STRENGTH;
 
         float r = texture(colortex0, texcoord + coordOffset).r;
         float g = texture(colortex0, texcoord).g;
