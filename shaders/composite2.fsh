@@ -55,6 +55,7 @@ void main() {
     vec3 baseColor = texture(colortex0, texcoord).rgb;
     vec3 outlineColor = mix(baseColor, vec3(1.0), 0.5);
     float outlineAlpha = 0.6;
+    float edgeBrightness = 3.5;
 
     // todo:
     // - leaf block holes are exempt
@@ -67,7 +68,9 @@ void main() {
     }
 
     if (gradientmagnitude > 0.01) {
-        color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
+        //below is the og one
+        //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
+        color.rgb = baseColor.rgb * edgeBrightness;
     } else {
         color.rgb = texture(colortex0, texcoord).rgb;
     }
