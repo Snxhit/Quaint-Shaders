@@ -5,7 +5,7 @@
 
 uniform sampler2D colortex0;
 
-#define BLOOM_THRESHOLD 0.7
+#define BLOOM_THRESHOLD 0.7 // [0.3 0.5 0.7 1.0]
 
 in vec2 texcoord;
 

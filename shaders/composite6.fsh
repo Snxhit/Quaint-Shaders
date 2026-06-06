@@ -6,14 +6,14 @@ uniform sampler2D colortex0;
 
 in vec2 texcoord;
 
-#define CHROMATIC_ABERRATION
-#define CHROMATIC_ABERRATION_STRENGTH 0.05
+#define CHROMATIC_ABERRATION 1 // [0 1]
+#define CHROMATIC_ABERRATION_STRENGTH 0.05 // [0.01 0.025 0.05 0.1]
 
 /* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
 
 void main() {
-    #ifdef CHROMATIC_ABERRATION
+    #if CHROMATIC_ABERRATION == 1
         vec2 toPixel = texcoord - vec2(0.5, 0.5);
         float falloff = dot(toPixel, toPixel);
         vec2 coordOffset = toPixel * falloff * CHROMATIC_ABERRATION_STRENGTH;

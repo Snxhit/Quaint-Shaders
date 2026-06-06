@@ -21,7 +21,7 @@ uniform float far;
 uniform float viewWidth;
 uniform float viewHeight;
 
-#define EDGE_DETECTION //Toggle for edge detection
+#define EDGE_DETECTION 1 // [0 1]
 
 in vec2 texcoord;
 
@@ -70,7 +70,7 @@ void main() {
     }
 
     if (gradientmagnitude > 0.01) {
-        #ifdef EDGE_DETECTION
+        #if EDGE_DETECTION == 1
             //below is the og one
             //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
             color.rgb = baseColor.rgb * edgeBrightness;
