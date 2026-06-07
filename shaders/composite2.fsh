@@ -25,7 +25,7 @@ uniform float viewHeight;
 
 in vec2 texcoord;
 
-/* RENDERTARGETS: 0 */
+/* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
 
 float linearizeDepth(float depth) {

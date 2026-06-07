@@ -1,5 +1,28 @@
-option.CHROMATIC_ABERRATION=Chromatic Aberration
-option.CHROMATIC_ABERRATION.comment=Toggles camera lens aberration effect.
-value.CHROMATIC_ABERRATION.0=OFF
-value.CHROMATIC_ABERRATION.1=ON
+# on/off settings
+option.CUSTOM_LIGHTING=Shadows & Lighting
+option.CUSTOM_LIGHTING.comment=Toggles shadows & custom lighting
+value.CUSTOM_LIGHTING.0=§cOFF
+value.CUSTOM_LIGHTING.1=§aON
 
+option.FOG_ON=Fog
+option.FOG_ON.comment=Toggles distant fog
+value.FOG_ON.0=§cOFF
+value.FOG_ON.1=§aON
+
+option.EDGE_DETECTION=Edge Detection
+option.EDGE_DETECTION.comment=Toggles terrain edge highlighting
+value.EDGE_DETECTION.0=§cOFF
+value.EDGE_DETECTION.1=§aON
+
+option.CHROMATIC_ABERRATION=Chromatic Aberration
+option.CHROMATIC_ABERRATION.comment=Toggles camera lens aberration effect
+value.CHROMATIC_ABERRATION.0=§cOFF
+value.CHROMATIC_ABERRATION.1=§aON
+
+option.BLOOM_ON=Bloom
+option.BLOOM_ON.comment=Toggles bloom
+value.BLOOM_ON.0=§cOFF
+value.BLOOM_ON.1=§aON
+
+screen.ADVANCED=Advanced Options
+screen.ADVANCED.comment=Adjust values, settings, thresholds for all effects!
