@@ -6,8 +6,7 @@ uniform sampler2D colortex0;
 
 in vec2 texcoord;
 
-#define CHROMATIC_ABERRATION 1 // [0 1]
-#define CHROMATIC_ABERRATION_STRENGTH 0.05 // [0.01 0.025 0.05 0.1]
+#include "/lib/definitions.glsl"
 
 /* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
