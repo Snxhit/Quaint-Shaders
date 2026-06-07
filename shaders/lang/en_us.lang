@@ -24,5 +24,13 @@ option.BLOOM_ON.comment=Toggles bloom
 value.BLOOM_ON.0=§cOFF
 value.BLOOM_ON.1=§aON
 
+# advanced options screen (on the menu)
 screen.ADVANCED=Advanced Options
 screen.ADVANCED.comment=Adjust values, settings, thresholds for all effects!
+
+# advanced option nested screens
+screen.LIGHTING_OPTIONS=Lighting Options
+screen.FOG_OPTIONS=Fog Options
+screen.ABERRATION_OPTIONS=Chromatic Aberration Options
+screen.EDGE_DETECTION_OPTIONS=Edge Settings
+screen.BLOOM_OPTIONS=Bloom Settings
