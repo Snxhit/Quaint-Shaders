@@ -34,3 +34,28 @@ screen.FOG_OPTIONS=Fog Options
 screen.ABERRATION_OPTIONS=Chromatic Aberration Options
 screen.EDGE_DETECTION_OPTIONS=Edge Settings
 screen.BLOOM_OPTIONS=Bloom Settings
+
+# nested screen options
+# custom lighting
+option.SHADOW_RADIUS=Shadow Radius
+option.SHADOW_RADIUS.comment=Adjust the blurriness of the edges of the shadow
+option.SHADOW_RANGE=Shadow Range
+option.SHADOW_RANGE.comment=Adjust the range of shadow
+
+# fog
+option.FOG_DENSITY=Fog Density
+option.FOG_DENSITY.comment=Adjusts the density of fog, affects vision
+
+# aberration
+option.CHROMATIC_ABERRATION_STRENGTH=Aberration Strength
+option.CHROMATIC_ABERRATION_STRENGTH.comment=Adjusts strength of aberration
+
+# edge detection
+option.EDGE_DETECTION_STRENGTH=Edge Detection Strength
+option.EDGE_DETECTION_STRENGTH.comment=Greater the strength, more edges are detected!
+option.EDGE_SIZE=Edge Highlight Size
+option.EDGE_SIZE.comment=Adjust size of highlighted edge
+
+# bloom
+option.BLOOM_THRESHOLD=Bloom Threshold
+option.BLOOM_THRESHOLD.comment=Adjusts threshold required to apply bloom
