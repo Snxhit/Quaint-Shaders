@@ -19,3 +19,6 @@
 // composite6.fsh
 #define CHROMATIC_ABERRATION 1 // [0 1]
 #define CHROMATIC_ABERRATION_STRENGTH 0.05 // [0.01 0.025 0.05 0.1]
+
+// composite7.fsh
+#define COLOR_MAPPING 1 // [0 1]

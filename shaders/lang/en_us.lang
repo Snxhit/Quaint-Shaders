@@ -24,6 +24,11 @@ option.BLOOM_ON.comment=Toggles bloom
 value.BLOOM_ON.0=§cOFF
 value.BLOOM_ON.1=§aON
 
+option.COLOR_MAPPING=ACES Color Mapping
+option.COLOR_MAPPING.comment=Adjusts game colors, adds vibrancy
+value.COLOR_MAPPING.0=§cOFF
+value.COLOR_MAPPING.1=§aON
+
 # advanced options screen (on the menu)
 screen.ADVANCED=Advanced Options
 screen.ADVANCED.comment=Adjust values, settings, thresholds for all effects!
