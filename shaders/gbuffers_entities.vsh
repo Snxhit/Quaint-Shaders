@@ -3,6 +3,7 @@
 out vec2 lmcoord;
 out vec2 texcoord;
 out vec4 glcolor;
+out vec3 normal;
 
 void main() {
 	gl_Position = ftransform();
@@ -11,4 +12,6 @@ void main() {
 	lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
 	lmcoord = lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
 	glcolor = gl_Color;
+
+	normal = normalize(gl_NormalMatrix * gl_Normal);
 }
