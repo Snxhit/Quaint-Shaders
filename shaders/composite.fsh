@@ -15,8 +15,9 @@ uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
 uniform float viewWidth;
 uniform float viewHeight;
-// TODO: Vary lighting according to daynight cycle
+// been reading it wrong, dayTime is not the uniform smh
 uniform int dayTime;
+uniform int worldTime;
 
 #include "/lib/distort.glsl"
 #include "/lib/definitions.glsl"
@@ -79,6 +80,12 @@ vec3 getSoftShadow(vec4 shadowClipPos) {
 	return shadowAccum / float(samples);
 }
 
+float getSunlightColor() {
+	float dayFactor = smoothstep(12000.0, 13000.0, float(worldTime)) * (1.0 - smoothstep(23000.0, 24000.0, float(worldTime)));
+	float sunMask = 1.0 - dayFactor;
+	return mix(0.3, 1.0, sunMask);
+}
+
 /* RENDERTARGETS: 0 */
 layout(location = 0) out vec4 color;
 
@@ -93,8 +100,8 @@ void main() {
 
 		const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
 		const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-		const vec3 sunlightColor = vec3(1.0);
-		const vec3 ambientColor = vec3(0.1);
+		vec3 sunlightColor = vec3(getSunlightColor());
+		const vec3 ambientColor = vec3(0.2);
 
 		vec3 blocklight = lightmap.r * blocklightColor;
 		vec3 skylight = lightmap.g * skylightColor;
