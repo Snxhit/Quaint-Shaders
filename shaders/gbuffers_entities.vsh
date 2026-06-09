@@ -5,7 +5,6 @@ out vec2 texcoord;
 out vec4 glcolor;
 
 void main() {
-	// Tells the GPU where the entity is located on screen
 	gl_Position = ftransform();
 	
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
