@@ -7,6 +7,7 @@ out vec2 lmcoord;
 out vec2 texcoord;
 out vec4 glcolor;
 out vec3 normal;
+flat out int vBlockID;
 
 in vec2 mc_Entity;
 
@@ -17,6 +18,7 @@ void main() {
 	glcolor = gl_Color;
 	normal = gl_NormalMatrix * gl_Normal;
 	normal = mat3(gbufferModelViewInverse) * normal;
+	vBlockID = int(mc_Entity.x);
 
 	vec4 position = gl_Vertex;
 	if (int(mc_Entity.x) == 10001 && gl_MultiTexCoord0.y < 0.1) {

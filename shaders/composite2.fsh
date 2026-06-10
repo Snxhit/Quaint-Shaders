@@ -15,6 +15,7 @@ gradients are calculated w them
 
 uniform sampler2D colortex0;
 uniform sampler2D colortex2; // normal data from terrain gbuffer
+uniform sampler2D colortex4; // block id data
 uniform sampler2D depthtex0;
 uniform float near;
 uniform float far;
@@ -24,6 +25,7 @@ uniform float viewHeight;
 #include "/lib/definitions.glsl"
 
 in vec2 texcoord;
+const int excludedBlockID = 10001;
 
 /* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
@@ -33,6 +35,13 @@ float linearizeDepth(float depth) {
 }
 
 void main() {
+    float sampledId = texture(colortex4, texcoord).x;
+    int blockId = int(sampledId + 0.5);
+
+    if (sampledId < -0.5) {
+        blockId = -1;
+    }
+
     #if EDGE_DETECTION == 1
         vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * EDGE_SIZE;
         // left col
@@ -70,7 +79,7 @@ void main() {
             return;
         }
 
-        if (gradientmagnitude > 0.01) {
+        if (gradientmagnitude > 0.01 && blockId != excludedBlockID) {
             //below is the og one
             //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
             color.rgb = baseColor.rgb * edgeBrightness;
