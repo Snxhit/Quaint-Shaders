@@ -25,7 +25,7 @@ uniform float viewHeight;
 #include "/lib/definitions.glsl"
 
 in vec2 texcoord;
-const int excludedBlockID = 10001;
+const int excludedBlockID = 3;
 
 /* RENDERTARGETS:0 */
 layout(location = 0) out vec4 color;
