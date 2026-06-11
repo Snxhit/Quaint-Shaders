@@ -34,6 +34,14 @@ float linearizeDepth(float depth) {
     return (2.0 * near) / (far + near - depth * (far - near));
 }
 
+int getBlockId(vec2 coord) {
+    float sampledId = texture(colortex4, coord).x;
+    if (sampledId < -0.5) {
+        return -1;
+    }
+    return int(sampledId + 0.5);
+}
+
 void main() {
     float sampledId = texture(colortex4, texcoord).x;
     int blockId = int(sampledId + 0.5);
@@ -44,6 +52,21 @@ void main() {
 
     #if EDGE_DETECTION == 1
         vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * EDGE_SIZE;
+
+        // exclusion filter
+        float exclusionFilter = 1.0;
+
+        if (getBlockId(texcoord + vec2(-1.0, -1.0) * texelsize) == excludedBlockID || 
+            getBlockId(texcoord + vec2(-1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(-1.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 1.0) * texelsize) == excludedBlockID) {
+                exclusionFilter = 0.0;
+            }
         // left col
         float topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
         float left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
@@ -62,6 +85,8 @@ void main() {
         float gradientmagnitude = sqrt((horizontalgradient * horizontalgradient) + (verticalgradient * verticalgradient));
         gradientmagnitude /= max(mid * 0.1, 1.0);
 
+        gradientmagnitude *= exclusionFilter;
+
         float edgeFactor = smoothstep(0.3, 0.7, gradientmagnitude);
 
         vec3 baseColor = texture(colortex0, texcoord).rgb;
@@ -79,7 +104,7 @@ void main() {
             return;
         }
 
-        if (gradientmagnitude > 0.01 && blockId != excludedBlockID) {
+        if (gradientmagnitude > 0.01) {
             //below is the og one
             //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
             color.rgb = baseColor.rgb * edgeBrightness;
