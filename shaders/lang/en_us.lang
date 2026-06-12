@@ -60,6 +60,10 @@ option.EDGE_DETECTION_STRENGTH=Edge Detection Strength
 option.EDGE_DETECTION_STRENGTH.comment=Greater the strength, more edges are detected!
 option.EDGE_SIZE=Edge Highlight Size
 option.EDGE_SIZE.comment=Adjust size of highlighted edge
+option.EXCLUDE_FOLIAGE=Exclude Foliage
+option.EXCLUDE_FOLIAGE.comment=Toggles edge detection on foliage (Leaves, petals, etc.)
+value.EXCLUDE_FOLIAGE.0=§cOFF
+value.EXCLUDE_FOLIAGE.1=§aON
 
 # bloom
 option.BLOOM_THRESHOLD=Bloom Threshold
