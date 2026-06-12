@@ -18,4 +18,5 @@ void main() {
 	if (color.a < alphaTestRef) {
 		discard;
 	}
+	color.rgba = vec4(0.1, 0.1, 0.3, 1.0);
 }
