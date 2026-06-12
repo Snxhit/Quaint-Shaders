@@ -11,6 +11,7 @@
 #define EDGE_DETECTION 1 // [0 1]
 #define EDGE_DETECTION_STRENGTH 0.6 // [0.3 0.4 0.5 0.6 0.7]
 #define EDGE_SIZE 2.0 // [1.0 2.0 3.0]
+#define EXCLUDE_FOLIAGE 0 // [0 1]
 
 // composite3.fsh
 #define BLOOM_ON 1 // [0 1]

@@ -85,7 +85,9 @@ void main() {
         float gradientmagnitude = sqrt((horizontalgradient * horizontalgradient) + (verticalgradient * verticalgradient));
         gradientmagnitude /= max(mid * 0.1, 1.0);
 
-        gradientmagnitude *= exclusionFilter;
+        #if EXCLUDE_FOLIAGE == 1
+            gradientmagnitude *= exclusionFilter;
+        #endif
 
         float edgeFactor = smoothstep(0.3, 0.7, gradientmagnitude);
 
