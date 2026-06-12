@@ -21,7 +21,7 @@ void main() {
 	vBlockID = int(mc_Entity.x);
 
 	vec4 position = gl_Vertex;
-	if (int(mc_Entity.x) == 10001 && gl_MultiTexCoord0.y < 0.1) {
+	if (int(mc_Entity.x) == 3) {
 		float timeScale = frameTimeCounter * 0.8;
 		float wave = sin(timeScale + position.x * 0.5) * cos(timeScale * 0.5 + position.z * 0.5);
 		float swayStrength = 0.04;
