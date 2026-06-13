@@ -38,7 +38,12 @@ void main() {
 	float hD = getWaterWaves(worldPos.xz - vec2(0.0, delta));
 	float hU = getWaterWaves(worldPos.xz + vec2(0.0, delta));
 
-	vec3 waveNormal = normalize(vec3(hL - hR, delta * 2.0, hD - hU));
+	//vec3 waveNormal = normalize(vec3(hL - hR, delta * 2.0, hD - hU));
+	vec3 waveNormal = vec3(hL - hR, delta * 2.0, hD - hU);
+
+	// reducing normal to prevent dark shallows in waves
+	waveNormal.xz *= 0.25;
+	waveNormal = normalize(waveNormal);
 
 	vec3 normalOut = waveNormal * 0.5 + 0.5;
 
