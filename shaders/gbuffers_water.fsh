@@ -42,6 +42,8 @@ void main() {
 	vec3 waveNormal = vec3(hL - hR, delta * 2.0, hD - hU);
 
 	// reducing normal to prevent dark shallows in waves
+	// dark shallows still appear
+		// todo: fix
 	waveNormal.xz *= 0.25;
 	waveNormal = normalize(waveNormal);
 
