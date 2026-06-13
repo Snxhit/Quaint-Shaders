@@ -7,6 +7,7 @@ in vec4 mc_Entity;
 out vec2 lmcoord;
 out vec2 texcoord;
 out vec4 glcolor;
+out vec3 worldPos;
 
 void main() {
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
@@ -15,19 +16,17 @@ void main() {
 
 	vec4 position = gl_Vertex;
 
+	worldPos = position.xyz;
+
 	int blockId = int(mc_Entity.x + 0.1);
 
 	if (blockId == 2) {
-		float waveSpeed = frameTimeCounter * 2.5;
-		float waveScaleX = position.x * 1.5;
-		float waveScaleZ = position.z * 1.5;
+		float time = frameTimeCounter * 1.5;
 
-		float waveY = sin(waveSpeed + waveScaleX) * 0.08 + cos(waveSpeed * 0.5 + waveScaleZ) * 0.05;
+		float wave1 = sin(time + position.x * 0.8 + position.z * 0.4) * 0.04;
+		float wave2 = cos(time * 0.7 + position.x * 0.3 + position.z * 0.9) * 0.03;
 
-		float waveX = sin(waveSpeed * 0.3 + waveScaleZ) * 0.03;
-
-		position.y += waveY;
-		position.x += waveX;
+		position.y += wave1 + wave2;
 	}
 
 	gl_Position = gl_ModelViewProjectionMatrix * position;
