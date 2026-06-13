@@ -18,7 +18,7 @@ uniform float viewHeight;
 // been reading it wrong, dayTime is not the uniform smh
 uniform int dayTime;
 uniform int worldTime;
-uniform float wetness;
+uniform float rainStrength;
 
 #include "/lib/distort.glsl"
 #include "/lib/definitions.glsl"
@@ -103,7 +103,7 @@ void main() {
 		const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
 		vec3 baseSunlightColor = vec3(getSunlightColor());
 		const vec3 rainSunlightColor = vec3(0.15, 0.18, 0.22);
-		vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, wetness);
+		vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, rainStrength);
 		const vec3 ambientColor = vec3(0.2);
 
 		vec3 blocklight = lightmap.r * blocklightColor;
