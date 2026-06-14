@@ -24,3 +24,4 @@
 
 // composite7.fsh
 #define COLOR_MAPPING 1 // [0 1]
+#define FXAA_ENABLED 1 // [0 1]
