@@ -23,8 +23,8 @@ void main() {
 
     float lumaN = getLuma(texture(colortex0, texcoord + vec2(0.0, texelSize.y)).rgb);
     float lumaS = getLuma(texture(colortex0, texcoord + vec2(0.0, -texelSize.y)).rgb);
-    float lumaW = getLuma(texture(colortex0, texcoord + vec2(texelSize.x, 0.0)).rgb);
-    float lumaE = getLuma(texture(colortex0, texcoord + vec2(-texelSize.x, 0.0)).rgb);
+    float lumaW = getLuma(texture(colortex0, texcoord + vec2(-texelSize.x, 0.0)).rgb);
+    float lumaE = getLuma(texture(colortex0, texcoord + vec2(texelSize.x, 0.0)).rgb);
 
     float lumaMin = min(oLuma, min(min(lumaN, lumaS), min(lumaE, lumaW)));
     float lumaMax = max(oLuma, max(max(lumaN, lumaS), max(lumaE, lumaW)));
@@ -81,7 +81,7 @@ void main() {
 
     for (int i = 0; i < FXAA_ITERATIONS; i++) {
         float lumaPosSample = getLuma(texture(colortex0, coordPos).rgb);
-        if (abs(lumaPosSample - lumaEdgeTarget) > edgeThreshold) {
+        if (abs(lumaPosSample - lumaEdgeTarget) < edgeThreshold) {
             distancePos = float(i) + 1.0;
             break;
         }
@@ -90,7 +90,7 @@ void main() {
 
     for (int i = 0; i < FXAA_ITERATIONS; i++){
         float lumaNegSample = getLuma(texture(colortex0, coordNeg).rgb);
-        if (abs(lumaNegSample - lumaEdgeTarget) > edgeThreshold) {
+        if (abs(lumaNegSample - lumaEdgeTarget) < edgeThreshold) {
             distanceNeg = float(i) + 1.0;
             break;
         }
