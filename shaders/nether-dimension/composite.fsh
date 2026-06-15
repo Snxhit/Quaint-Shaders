@@ -1,4 +1,3 @@
-
 #version 330 compatibility
 
 uniform sampler2D colortex0;
@@ -20,7 +19,7 @@ void main() {
 		vec3 worldLightVector = vec3(0.0, 1.0, 0.0);
 
 		const vec3 blocklightColor = vec3(0.2, 0.4, 0.1);
-		const vec3 netherAmbientColor = vec3(0.1, 0.1, 0.1);
+		const vec3 netherAmbientColor = vec3(0.01, 0.005, 0.005);
 
 		vec3 blocklight = lightmap.r * blocklightColor;
 		vec3 ambient = netherAmbientColor;

@@ -13,8 +13,9 @@ in vec2 mc_Entity;
 
 void main() {
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
-	lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
-	lmcoord = lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
+	//lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+	lmcoord = clamp(gl_MultiTexCoord1.xy / 240.0, 0.0, 1.0);
+	//lmcoord = lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
 	glcolor = gl_Color;
 	normal = gl_NormalMatrix * gl_Normal;
 	normal = mat3(gbufferModelViewInverse) * normal;

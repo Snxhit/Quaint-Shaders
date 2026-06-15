@@ -21,11 +21,22 @@ layout(location = 2) out vec4 encodedNormal;
 layout(location = 3) out vec4 idData;
 
 void main() {
-	color = texture(gtexture, texcoord) * glcolor;
+	vec4 baseColor = texture(gtexture, texcoord);
+
+	float maxColorChan = max(glcolor.r, max(glcolor.g, glcolor.b));
+	vec4 cleanTint = vec4(1.0);
+	if (maxColorChan > 0.0) {
+		cleanTint.rgb = glcolor.rgb / maxColorChan;
+	}
+	cleanTint.a = glcolor.a;
+
+	color = baseColor * cleanTint;
 	idData = vec4(float(vBlockID), 0.0, 0.0, 1.0);
+
 	if (color.a < alphaTestRef) {
 		discard;
 	}
+
 	lightmapData = vec4(lmcoord, 0.0, 1.0);
 	encodedNormal = vec4(normal * 0.5 + 0.5, 1.0);
 }
