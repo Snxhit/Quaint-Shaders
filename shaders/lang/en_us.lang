@@ -29,6 +29,11 @@ option.COLOR_MAPPING.comment=Adjusts game colors, adds vibrancy
 value.COLOR_MAPPING.0=§cOFF
 value.COLOR_MAPPING.1=§aON
 
+option.FXAA_ENABLED=FXAA Enabled
+option.FXAA_ENABLED.comment=Toggles Fast Approximate Anti Aliasing
+value.FXAA_ENABLED.0=§cOFF
+value.FXAA_ENABLED.1=§aON
+
 # advanced options screen (on the menu)
 screen.ADVANCED=Advanced Options
 screen.ADVANCED.comment=Adjust values, settings, thresholds for all effects!
