@@ -15,10 +15,6 @@ uniform mat4 gbufferProjectionInverse;
 uniform mat4 shadowModelView;
 uniform float viewWidth;
 uniform float viewHeight;
-// been reading it wrong, dayTime is not the uniform smh
-uniform int dayTime;
-uniform int worldTime;
-uniform float rainStrength;
 
 #include "/lib/distort.glsl"
 #include "/lib/definitions.glsl"
@@ -81,12 +77,6 @@ vec3 getSoftShadow(vec4 shadowClipPos) {
 	return shadowAccum / float(samples);
 }
 
-float getSunlightColor() {
-	float dayFactor = smoothstep(12000.0, 13000.0, float(worldTime)) * (1.0 - smoothstep(23000.0, 24000.0, float(worldTime)));
-	float sunMask = 1.0 - dayFactor;
-	return mix(0.3, 1.0, sunMask);
-}
-
 /* RENDERTARGETS: 0 */
 layout(location = 0) out vec4 color;
 
@@ -100,14 +90,9 @@ void main() {
 		vec3 worldLightVector = mat3(gbufferModelViewInverse) * lightVector;
 
 		const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
-		const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-		vec3 baseSunlightColor = vec3(getSunlightColor());
-		const vec3 rainSunlightColor = vec3(0.15, 0.18, 0.22);
-		vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, rainStrength);
-		const vec3 ambientColor = vec3(0.5);
+		const vec3 ambientColor = vec3(0.8);
 
 		vec3 blocklight = lightmap.r * blocklightColor;
-		vec3 skylight = lightmap.g * skylightColor;
 		vec3 ambient = ambientColor;
 		//vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * lightmap.g;
 
@@ -123,9 +108,9 @@ void main() {
 		vec4 shadowClipPos = shadowProjection * vec4(shadowViewPos, 1.0);
 
 		vec3 shadow = getSoftShadow(shadowClipPos);
-		vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow;
+		vec3 shadowDirectional = vec3(clamp(dot(worldLightVector, normal), 0.0, 1.0)) * shadow * 0.4;
 
-		color.rgb *= blocklight + skylight + ambient + sunlight;
+		color.rgb *= blocklight + ambient;
 		color.rgb = pow(color.rgb, vec3(2.2));
 	#else
 		color.rgb = texture(colortex0, texcoord).rgb;
