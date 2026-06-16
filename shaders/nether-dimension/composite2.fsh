@@ -27,7 +27,7 @@ void main() {
     }
 
     #if EDGE_DETECTION == 1
-        color.rgb = edgeDetectNether(colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
+        color.rgb = edgeDetect(1, colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
     #else
         color.rgb = texture(colortex0, texcoord).rgb;
     #endif

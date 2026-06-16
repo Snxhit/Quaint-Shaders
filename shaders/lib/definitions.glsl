@@ -9,7 +9,6 @@
 #define FOG_ON 1 // [0 1]
 #define FOG_DENSITY 5.0 // [5.0]
 
-// third composite pass
 // edge detection
 #define EDGE_DETECTION 1 // [0 1]
 #define EDGE_DETECTION_STRENGTH 0.6 // [0.3 0.4 0.5 0.6 0.7]
