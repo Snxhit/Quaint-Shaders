@@ -91,6 +91,71 @@ vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 te
     }
 }
 
-vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     // rewrite to fix block faces being detected as edges
+    #if EDGE_DETECTION == 1
+        vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * EDGE_SIZE;
+
+        float exclusionFilter = 1.0;
+
+        if (getBlockId(texcoord + vec2(-1.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(-1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(-1.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 1.0) * texelsize) == excludedBlockID) {
+                exclusionFilter = 0.0;
+            }
+
+        float d_topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 1.0) * texelsize).r);
+        float d_left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
+        float d_bottomleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
+        float d_top = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, 1.0) * texelsize).r);
+        float d_middle = linearizeDepth(texture(depthtex0, texcoord * texelsize).r);
+        float d_bottom = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, -1.0) * texelsize).r);
+        float d_topright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 1.0) * texelsize).r);
+        float d_right = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 0.0) * texelsize).r);
+        float d_bottomright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, -1.0) * texelsize).r);
+
+        float d_horizontalgradient = -d_topleft + d_topright - (2.0 * d_left) + (2.0 * d_right) - d_bottomleft + d_bottomright;
+        float d_verticalgradient = d_topleft + (2.0 * d_top) + d_topright - d_bottomleft - (2.0 * d_bottom) - d_bottomright;
+        float depthMag = sqrt((d_horizontalgradient * d_horizontalgradient) + (d_verticalgradient * d_verticalgradient));
+
+        depthMag /= max(d_middle, 0.001);
+
+        vec3 n_topleft = texture(colortex2, texcoord + vec2(-1.0, 1.0) * texelsize).xyz;
+        vec3 n_left = texture(colortex2, texcoord + vec2(-1.0, 0.0) * texelsize).xyz;
+        vec3 n_bottomleft = texture(colortex2, texcoord + vec2(-1.0, -1.0) * texelsize).xyz;
+        vec3 n_top = texture(colortex2, texcoord + vec2(0.0, 1.0) * texelsize).xyz;
+        vec3 n_middle = texture(colortex2, texcoord * texelsize).xyz;
+        vec3 n_bottom = texture(colortex2, texcoord + vec2(0.0, -1.0) * texelsize).xyz;
+        vec3 n_topright = texture(colortex2, texcoord + vec2(1.0, 1.0) * texelsize).xyz;
+        vec3 n_right = texture(colortex2, texcoord + vec2(1.0, 0.0) * texelsize).xyz;
+        vec3 n_bottomright = texture(colortex2, texcoord + vec2(1.0, -1.0) * texelsize).xyz;
+
+        vec3 n_horizontalgradient = -n_topleft + n_topright - (2.0 * n_left) + (2.0 * n_right) - n_bottomleft + n_bottomright;
+        vec3 n_verticalgradient = n_topleft + (2.0 * n_top) + n_topright - n_bottomleft - (2.0 * n_bottom) - n_bottomright;
+        float normalMag = sqrt(dot(n_horizontalgradient, n_horizontalgradient) + dot(n_verticalgradient, n_verticalgradient));
+
+        float finalGradient = depthMag * 0.5 + normalMag * 2.0;
+
+        #if EXCLUDE_FOLIAGE == 1
+            finalGradient *= exclusionFilter;
+        #endif
+
+        if (d_middle > EDGE_DETECTION_STRENGTH) {
+            return(texture(colortex0, texcoord).rgb);
+        }
+
+        if (finalGradient > 0.15) {
+            return(texture(colortex0, texcoord).rgb * EDGE_BRIGHTNESS);
+        } else {
+            return(texture(colortex0, texcoord).rgb);
+        }
+    #else
+        return(texture(colortex0, texcoord).rgb);
+    #endif
 }
