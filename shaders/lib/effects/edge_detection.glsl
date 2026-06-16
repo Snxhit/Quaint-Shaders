@@ -114,7 +114,7 @@ vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D colortex2, 
         float d_left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
         float d_bottomleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
         float d_top = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, 1.0) * texelsize).r);
-        float d_middle = linearizeDepth(texture(depthtex0, texcoord * texelsize).r);
+        float d_middle = linearizeDepth(texture(depthtex0, texcoord).r);
         float d_bottom = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, -1.0) * texelsize).r);
         float d_topright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 1.0) * texelsize).r);
         float d_right = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 0.0) * texelsize).r);
@@ -130,7 +130,7 @@ vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D colortex2, 
         vec3 n_left = texture(colortex2, texcoord + vec2(-1.0, 0.0) * texelsize).xyz;
         vec3 n_bottomleft = texture(colortex2, texcoord + vec2(-1.0, -1.0) * texelsize).xyz;
         vec3 n_top = texture(colortex2, texcoord + vec2(0.0, 1.0) * texelsize).xyz;
-        vec3 n_middle = texture(colortex2, texcoord * texelsize).xyz;
+        vec3 n_middle = texture(colortex2, texcoord).xyz;
         vec3 n_bottom = texture(colortex2, texcoord + vec2(0.0, -1.0) * texelsize).xyz;
         vec3 n_topright = texture(colortex2, texcoord + vec2(1.0, 1.0) * texelsize).xyz;
         vec3 n_right = texture(colortex2, texcoord + vec2(1.0, 0.0) * texelsize).xyz;
