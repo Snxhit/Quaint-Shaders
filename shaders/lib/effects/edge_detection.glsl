@@ -90,3 +90,7 @@ vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 te
         return(texture(colortex0, texcoord).rgb);
     }
 }
+
+vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+    // rewrite to fix block faces being detected as edges
+}
