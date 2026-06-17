@@ -10,7 +10,7 @@ value.FOG_ON.0=§cOFF
 value.FOG_ON.1=§aON
 
 option.EDGE_DETECTION=Edge Detection
-option.EDGE_DETECTION.comment=Toggles terrain edge highlighting
+option.EDGE_DETECTION.comment=Toggles terrain edge highlighting (Modes: Grid & Contour)
 value.EDGE_DETECTION.0=§cOFF
 value.EDGE_DETECTION.1=§aON
 
@@ -61,6 +61,8 @@ option.CHROMATIC_ABERRATION_STRENGTH=Aberration Strength
 option.CHROMATIC_ABERRATION_STRENGTH.comment=Adjusts strength of aberration
 
 # edge detection
+option.EDGE_DETECTION_MODE=Edge Detection Mode
+option.EDGE_DETECTION_MODE.comment=§6CONTOUR§f: Outlines the edges of terrain where there is a difference of depth.§uGRID: Outlines every edge of the terrain.
 option.EDGE_DETECTION_STRENGTH=Edge Detection Strength
 option.EDGE_DETECTION_STRENGTH.comment=Greater the strength, more edges are detected!
 option.EDGE_SIZE=Edge Highlight Size
