@@ -44,6 +44,7 @@ screen.FOG_OPTIONS=Fog Options
 screen.ABERRATION_OPTIONS=Chromatic Aberration Options
 screen.EDGE_DETECTION_OPTIONS=Edge Settings
 screen.BLOOM_OPTIONS=Bloom Settings
+screen.FXAA_OPTIONS=FXAA Options
 
 # nested screen options
 # custom lighting
