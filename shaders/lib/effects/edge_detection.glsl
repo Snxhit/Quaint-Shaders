@@ -33,7 +33,7 @@ vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D colortex2, sampler
         #if EDGE_DETECTION_MODE == 0
             return(edgeDetectDepth(dimension, colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
         #elif EDGE_DETECTION_MODE == 1
-            return(edgeDetectDepthNormal(dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
+            return(edgeDetectDepthNormal(dimension, colortex0, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
         #endif
     #else
         return(texture(colortex0, texcoord).rgb);

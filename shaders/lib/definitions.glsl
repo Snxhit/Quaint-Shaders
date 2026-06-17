@@ -11,7 +11,7 @@
 
 // edge detection
 #define EDGE_DETECTION 1 // [0 1]
-#define EDGE_DETECTION_TYPE 0 // [0 1]
+#define EDGE_DETECTION_MODE 0 // [0 1]
 #define EDGE_DETECTION_STRENGTH 0.6 // [0.3 0.4 0.5 0.6 0.7]
 #define EDGE_SIZE 2.0 // [1.0 2.0 3.0]
 #define EDGE_BRIGHTNESS 3.5 // [1.5 2.0 2.5 3.0 3.5 4.0]

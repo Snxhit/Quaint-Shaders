@@ -63,7 +63,9 @@ option.CHROMATIC_ABERRATION_STRENGTH.comment=Adjusts strength of aberration
 
 # edge detection
 option.EDGE_DETECTION_MODE=Edge Detection Mode
-option.EDGE_DETECTION_MODE.comment=§6CONTOUR§f: Outlines the edges of terrain where there is a difference of depth.§uGRID: Outlines every edge of the terrain.
+option.EDGE_DETECTION_MODE.comment=§6CONTOUR§f: Outlines the edges of terrain where there is a difference of depth.\n§bGRID§f: Outlines every edge of the terrain.
+value.EDGE_DETECTION_MODE.0=§6CONTOUR
+value.EDGE_DETECTION_MODE.1=§bGRID
 option.EDGE_DETECTION_STRENGTH=Edge Detection Strength
 option.EDGE_DETECTION_STRENGTH.comment=Greater the strength, more edges are detected!
 option.EDGE_SIZE=Edge Highlight Size
