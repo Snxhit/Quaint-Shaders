@@ -13,6 +13,13 @@ vec3 ACESFilmOverworld(vec3 x) {
 }
 
 vec3 ACESFilmNether(vec3 x) {
+    mat3 crosstalk = mat3(
+        0.85, 0.1, 0.05,
+        0.05, 0.9, 0.05,
+        0.02, 0.08, 0.9 
+    );
+    x = crosstalk * x;
+
     float a = 2.51;
     float b = 0.03;
     float c = 2.43;
