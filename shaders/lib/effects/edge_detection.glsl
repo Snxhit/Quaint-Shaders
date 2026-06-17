@@ -26,6 +26,14 @@ int getBlockId(vec2 coord) {
 }
 
 vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+    #if EDGE_DETECTION_TYPE == 0
+        return(edgeDetectDepth(dimension, colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
+    #elif EDGE_DETECTION_TYPE == 1
+        return(edgeDetectDepthNormal(dimension, colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
+    #endif
+}
+
+vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     /* use dimension int to change variables to tweak effects for each biome */
     /* lets go w: 0 - overworld, 1 - nether, 2 - end */
     // ts better than having copied code for all 3 dimensions
@@ -91,7 +99,7 @@ vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 te
     }
 }
 
-vec3 edgeDetectRewrite(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     // rewrite to fix block faces being detected as edges
     #if EDGE_DETECTION == 1
         vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * EDGE_SIZE;
