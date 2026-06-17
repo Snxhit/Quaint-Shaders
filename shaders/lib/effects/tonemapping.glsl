@@ -21,9 +21,9 @@ vec3 ACESFilmNether(vec3 x) {
     x = crosstalk * x;
 
     float a = 2.51;
-    float b = 0.03;
+    float b = 0.07; // liufted to hope it herlps darkness
     float c = 2.43;
-    float d = 0.59;
+    float d = 0.7;
     float e = 0.14;
     return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
