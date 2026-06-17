@@ -25,6 +25,9 @@ int getBlockId(vec2 coord) {
     return int(sampledId + 0.5);
 }
 
+vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
+vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
+
 vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     #if EDGE_DETECTION == 1
         #if EDGE_DETECTION_MODE == 0
