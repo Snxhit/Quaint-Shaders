@@ -26,7 +26,7 @@ vec3 applySinglePassBloom(sampler2D colortex0, vec2 texcoord, float viewWidth, f
             for (int y = 0; y < 5; y++) {
                 vec2 offset = vec2(offsets[x], offsets[y]) * blurScale;
                 vec3 sampledBright = extractBright(colortex0, texcoord + offset);
-                vec3 combinedWeight = weights[x] * weights[y];
+                float combinedWeight = weights[x] * weights[y];
                 blurredBloom += sampledBright * combinedWeight;
             }
         }
