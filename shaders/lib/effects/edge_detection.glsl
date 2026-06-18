@@ -112,23 +112,29 @@ vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colorte
 
     float exclusionFilter = 1.0;
 
-    if (getBlockId(texcoord + vec2(-1.0, -1.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(-1.0, 0.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(-1.0, 1.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(0.0, 1.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(0.0, -1.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(1.0, -1.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(1.0, 0.0) * texelsize) == excludedBlockID ||
-        getBlockId(texcoord + vec2(1.0, 1.0) * texelsize) == excludedBlockID) {
-            exclusionFilter = 0.0;
-        }
+    #if EXCLUDE_FOLIAGE == 1
+        if (getBlockId(texcoord + vec2(-1.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(-1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(-1.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, 1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord) == excludedBlockID ||
+            getBlockId(texcoord + vec2(0.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, -1.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 0.0) * texelsize) == excludedBlockID ||
+            getBlockId(texcoord + vec2(1.0, 1.0) * texelsize) == excludedBlockID) {
+                exclusionFilter = 0.0;
+            }
+    #endif
+
+    float d_middle = linearizeDepth(texture(depthtex0, texcoord).r);
+    if (d_middle > EDGE_DETECTION_STRENGTH) {
+        return texture(colortex0, texcoord).rgb;
+    }
 
     float d_topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 1.0) * texelsize).r);
     float d_left = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 0.0) * texelsize).r);
     float d_bottomleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, -1.0) * texelsize).r);
     float d_top = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, 1.0) * texelsize).r);
-    float d_middle = linearizeDepth(texture(depthtex0, texcoord).r);
     float d_bottom = linearizeDepth(texture(depthtex0, texcoord + vec2(0.0, -1.0) * texelsize).r);
     float d_topright = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 1.0) * texelsize).r);
     float d_right = linearizeDepth(texture(depthtex0, texcoord + vec2(1.0, 0.0) * texelsize).r);
@@ -160,13 +166,9 @@ vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colorte
         finalGradient *= exclusionFilter;
     #endif
 
-    if (d_middle > EDGE_DETECTION_STRENGTH) {
-        return(texture(colortex0, texcoord).rgb);
-    }
-
-    if (finalGradient > 0.15) {
+    if (finalGradient > 0.22) {
         return(texture(colortex0, texcoord).rgb * EDGE_BRIGHTNESS);
-    } else {
-        return(texture(colortex0, texcoord).rgb);
     }
+    
+    return(texture(colortex0, texcoord).rgb);
 }
