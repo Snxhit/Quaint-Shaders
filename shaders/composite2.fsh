@@ -11,6 +11,7 @@ uniform float viewHeight;
 
 #include "/lib/definitions.glsl"
 #include "/lib/effects/edge_detection.glsl"
+#include "/lib/effects/bloom.glsl"
 
 in vec2 texcoord;
 const int excludedBlockID = 3;
@@ -19,5 +20,7 @@ const int excludedBlockID = 3;
 layout(location = 0) out vec4 color;
 
 void main() {
-    color.rgb = edgeDetect(1, texture(colortex0, texcoord).rgb, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
+    color.rgb = applySinglePassBloom(colortex0, texcoord, viewWidth, viewHeight).rgb;
+    color.a = 1;
+    color.rgb = edgeDetect(1, color.rgb, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
 }
