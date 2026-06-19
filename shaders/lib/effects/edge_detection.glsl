@@ -25,22 +25,22 @@ int getBlockId(vec2 coord) {
     return int(sampledId + 0.5);
 }
 
-vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
-vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
+vec3 edgeDetectDepth(int dimension, vec3 color, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
+vec3 edgeDetectDepthNormal(int dimension, vec3 color, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
 
-vec3 edgeDetect(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetect(int dimension, vec3 color, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     #if EDGE_DETECTION == 1
         #if EDGE_DETECTION_MODE == 0
-            return(edgeDetectDepth(dimension, colortex0, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
+            return(edgeDetectDepth(dimension, color, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
         #elif EDGE_DETECTION_MODE == 1
-            return(edgeDetectDepthNormal(dimension, colortex0, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
+            return(edgeDetectDepthNormal(dimension, color, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));
         #endif
     #else
-        return(texture(colortex0, texcoord).rgb);
+        return color;
     #endif
 }
 
-vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetectDepth(int dimension, vec3 color, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     /* use dimension int to change variables to tweak effects for each biome */
     /* lets go w: 0 - overworld, 1 - nether, 2 - end */
     // ts better than having copied code for all 3 dimensions
@@ -84,8 +84,7 @@ vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, ve
 
     float edgeFactor = smoothstep(0.3, 0.7, gradientmagnitude);
 
-    vec3 baseColor = texture(colortex0, texcoord).rgb;
-    vec3 outlineColor = mix(baseColor, vec3(1.0), 0.5);
+    vec3 outlineColor = mix(color, vec3(1.0), 0.5);
     float outlineAlpha = 0.6;
 
     // todo:
@@ -94,19 +93,19 @@ vec3 edgeDetectDepth(int dimension, sampler2D colortex0, sampler2D depthtex0, ve
     // - color it according to the block colors
 
     if (linearizeDepth(texture(depthtex0, texcoord).r) > EDGE_DETECTION_STRENGTH) {
-        return(texture(colortex0, texcoord).rgb);
+        return color;
     }
 
     if (gradientmagnitude > 0.01) {
         //below is the og one
         //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
-        return(baseColor.rgb * EDGE_BRIGHTNESS);
+        return color.rgb * EDGE_BRIGHTNESS;
     } else {
-        return(texture(colortex0, texcoord).rgb);
+        return color;
     }
 }
 
-vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetectDepthNormal(int dimension, vec3 color, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
     // rewrite to fix block faces being detected as edges
     vec2 texelsize = vec2(1.0 / viewWidth, 1.0 / viewHeight) * EDGE_SIZE;
 
@@ -128,7 +127,7 @@ vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colorte
 
     float d_middle = linearizeDepth(texture(depthtex0, texcoord).r);
     if (d_middle > EDGE_DETECTION_STRENGTH) {
-        return texture(colortex0, texcoord).rgb;
+        return color;
     }
 
     float d_topleft = linearizeDepth(texture(depthtex0, texcoord + vec2(-1.0, 1.0) * texelsize).r);
@@ -167,8 +166,8 @@ vec3 edgeDetectDepthNormal(int dimension, sampler2D colortex0, sampler2D colorte
     #endif
 
     if (finalGradient > 0.22) {
-        return(texture(colortex0, texcoord).rgb * EDGE_BRIGHTNESS);
+        return color.rgb * EDGE_BRIGHTNESS;
     }
     
-    return(texture(colortex0, texcoord).rgb);
+    return color;
 }

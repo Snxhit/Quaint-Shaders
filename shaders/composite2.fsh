@@ -19,9 +19,5 @@ const int excludedBlockID = 3;
 layout(location = 0) out vec4 color;
 
 void main() {
-    #if EDGE_DETECTION == 1
-        color.rgb = edgeDetect(0, colortex0, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
-    #else
-        color.rgb = texture(colortex0, texcoord).rgb;
-    #endif
+    color.rgb = edgeDetect(1, texture(colortex0, texcoord).rgb, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
 }

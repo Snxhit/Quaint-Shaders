@@ -11,9 +11,7 @@ layout(location = 0) out vec4 color;
 
 #include "/lib/definitions.glsl"
 #include "/lib/effects/tonemapping.glsl"
-#include "/lib/effects/fxaa.glsl"
 
 void main() {
     color.rgb = applyToneMapping(1, colortex0, texcoord);
-    color.rgb = applyFXAA(colortex0, texcoord, viewWidth, viewHeight);
 }
