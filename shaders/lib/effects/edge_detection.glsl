@@ -87,18 +87,11 @@ vec3 edgeDetectDepth(int dimension, vec3 color, sampler2D depthtex0, vec2 texcoo
     vec3 outlineColor = mix(color, vec3(1.0), 0.5);
     float outlineAlpha = 0.6;
 
-    // todo:
-    // - leaf block holes are exempt
-    // - make it smoother
-    // - color it according to the block colors
-
     if (linearizeDepth(texture(depthtex0, texcoord).r) > EDGE_DETECTION_STRENGTH) {
         return color;
     }
 
     if (gradientmagnitude > 0.01) {
-        //below is the og one
-        //color.rgb = mix(baseColor, outlineColor, edgeFactor * outlineAlpha);
         return color.rgb * EDGE_BRIGHTNESS;
     } else {
         return color;
