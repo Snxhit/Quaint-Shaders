@@ -19,14 +19,7 @@ const int excludedBlockID = 3;
 layout(location = 0) out vec4 color;
 
 void main() {
-    float sampledId = texture(colortex4, texcoord).x;
-    int blockId = int(sampledId + 0.5);
-
-    if (sampledId < -0.5) {
-        blockId = -1;
-    }
-
-    #if EDGE_DETECTION == 1
+   #if EDGE_DETECTION == 1
         color.rgb = edgeDetect(1, colortex0, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
     #else
         color.rgb = texture(colortex0, texcoord).rgb;
