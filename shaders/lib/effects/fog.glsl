@@ -6,8 +6,7 @@ vec3 projectAndDivide(mat4 projectionMatrix, vec3 position) {
 	return homePos.xyz / homePos.w;
 }
 
-vec3 applyFog(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, float far, vec3 fogColor, mat4 gbufferModelViewInverse, mat4 gbufferProjectionInverse) {
-    vec3 color = texture(colortex0, texcoord).rgb;
+vec3 applyFog(vec3 color, vec2 texcoord, sampler2D depthtex0, float far, vec3 fogColor, mat4 gbufferModelViewInverse, mat4 gbufferProjectionInverse) {
     #if FOG_ON == 1
         float depth = texture(depthtex0, texcoord).r;
         if (depth == 1.0) {
