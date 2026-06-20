@@ -28,7 +28,10 @@ int getBlockId(vec2 coord) {
 vec3 edgeDetectDepth(int dimension, vec3 color, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
 vec3 edgeDetectDepthNormal(int dimension, vec3 color, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID);
 
-vec3 edgeDetect(int dimension, vec3 color, sampler2D colortex2, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+vec3 edgeDetect(int dimension, vec3 color, sampler2D colortex2, sampler2D colortex5, sampler2D depthtex0, vec2 texcoord, float viewWidth, float viewHeight, int excludedBlockID) {
+    if (texture(colortex5, texcoord).a > 0.5) {
+        return color;
+    }
     #if EDGE_DETECTION == 1
         #if EDGE_DETECTION_MODE == 0
             return(edgeDetectDepth(dimension, color, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID));

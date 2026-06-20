@@ -3,6 +3,7 @@
 uniform sampler2D colortex0;
 uniform sampler2D colortex2; // normal data from terrain gbuffer
 uniform sampler2D colortex4; // block id data
+uniform sampler2D colortex5; // entity data
 uniform sampler2D depthtex0;
 uniform float near;
 uniform float far;
@@ -26,6 +27,6 @@ layout(location = 0) out vec4 color;
 void main() {
     color.rgb = applySinglePassBloom(colortex0, texcoord, viewWidth, viewHeight).rgb;
     color.a = 1;
-    color.rgb = edgeDetect(1, color.rgb, colortex2, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
+    color.rgb = edgeDetect(1, color.rgb, colortex2, colortex5, depthtex0, texcoord, viewWidth, viewHeight, excludedBlockID);
 	color.rgb = applyFog(color.rgb, texcoord, depthtex0, far, fogColor, gbufferModelViewInverse, gbufferProjectionInverse);
 }
