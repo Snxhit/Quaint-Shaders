@@ -45,6 +45,7 @@ screen.ABERRATION_OPTIONS=Chromatic Aberration Options
 screen.EDGE_DETECTION_OPTIONS=Edge Settings
 screen.BLOOM_OPTIONS=Bloom Settings
 screen.FXAA_OPTIONS=FXAA Options
+screen.ENVIRONMENT_OPTIONS=Environment Settings
 
 # nested screen options
 # custom lighting
@@ -84,3 +85,13 @@ value.EXCLUDE_FOLIAGE.1=§aON
 # bloom
 option.BLOOM_THRESHOLD=Bloom Threshold
 option.BLOOM_THRESHOLD.comment=Adjusts threshold required to apply bloom
+
+# environment
+option.WAVING_WATER=Waving Water
+option.WAVING_WATER.comment=Toggles waving water
+value.WAVING_WATER.0=§cOFF
+value.WAVING_WATER.1=§bON
+option.WAVING_FOLIAGE=Waving Foliage
+option.WAVING_FOLIAGE.comment=Toggles waving foliage (Leaves, flowers, etc.)
+value.WAVING_FOLIAGE.0=§cOFF
+value.WAVING_FOLIAGE.1=§2ON

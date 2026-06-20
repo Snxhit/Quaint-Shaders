@@ -18,16 +18,18 @@ void main() {
 
 	worldPos = position.xyz;
 
-	int blockId = int(mc_Entity.x + 0.1);
+	#if WAVING_WATER == 1
+		int blockId = int(mc_Entity.x + 0.1);
 
-	if (blockId == 2) {
-		float time = frameTimeCounter * 1.5;
+		if (blockId == 2) {
+			float time = frameTimeCounter * 1.5;
 
-		float wave1 = sin(time + position.x * 0.8 + position.z * 0.4) * 0.04;
-		float wave2 = cos(time * 0.7 + position.x * 0.3 + position.z * 0.9) * 0.03;
+			float wave1 = sin(time + position.x * 0.8 + position.z * 0.4) * 0.04;
+			float wave2 = cos(time * 0.7 + position.x * 0.3 + position.z * 0.9) * 0.03;
 
-		position.y += wave1 + wave2;
-	}
+			position.y += wave1 + wave2;
+		}
+	#endif
 
 	gl_Position = gl_ModelViewProjectionMatrix * position;
 }

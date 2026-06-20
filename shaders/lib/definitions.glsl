@@ -1,10 +1,8 @@
-// first composite pass
 // custom lighting & shadows
 #define CUSTOM_LIGHTING 1 // [0 1]
 #define SHADOW_RADIUS 2 // [1 2 3 4]
 #define SHADOW_RANGE 4 // [3 4 5]
 
-// second composite pass
 // fog
 #define FOG_ON 1 // [0 1]
 #define FOG_DENSITY 5.0 // [5.0]
@@ -18,24 +16,24 @@
 #define EXCLUDE_ENTITIES 1 // [0 1]
 #define EXCLUDE_FOLIAGE 1 // [0 1]
 
-// fourth composite pass
 // bloom (applies to the whole screen)
 #define BLOOM_ON 1 // [0 1]
 #define BLOOM_THRESHOLD 0.9 // [0.3 0.5 0.7 0.9]
 
-// fifth composite pass
 // chromatic aberration
 #define CHROMATIC_ABERRATION 1 // [0 1]
 #define CHROMATIC_ABERRATION_STRENGTH 0.05 // [0.01 0.025 0.05 0.1]
 
-// sixth composite pass
 // ACES tone mapping
 #define COLOR_MAPPING 1 // [0 1]
 
-// seventh composite pass
 // FXAA
 #define FXAA_ENABLED 1 // [0 1]
 #define FXAA_MIN_THRESHOLD 0.0312
 #define FXAA_MAX_THRESHOLD 0.125
 #define FXAA_ITERATIONS 8
 #define SUBPIXEL_QUALITY 0.75
+
+// environment
+#define WAVING_WATER 1 // [0 1]
+#define WAVING_FOLIAGE 1 // [0 1]

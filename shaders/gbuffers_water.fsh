@@ -32,22 +32,26 @@ void main() {
 		discard;
 	}
 
-	float delta = 0.1;
-	float hL = getWaterWaves(worldPos.xz - vec2(delta, 0.0));
-	float hR = getWaterWaves(worldPos.xz + vec2(delta, 0.0));
-	float hD = getWaterWaves(worldPos.xz - vec2(0.0, delta));
-	float hU = getWaterWaves(worldPos.xz + vec2(0.0, delta));
+	#if WAVING_WATER == 1
+		float delta = 0.1;
+		float hL = getWaterWaves(worldPos.xz - vec2(delta, 0.0));
+		float hR = getWaterWaves(worldPos.xz + vec2(delta, 0.0));
+		float hD = getWaterWaves(worldPos.xz - vec2(0.0, delta));
+		float hU = getWaterWaves(worldPos.xz + vec2(0.0, delta));
 
-	//vec3 waveNormal = normalize(vec3(hL - hR, delta * 2.0, hD - hU));
-	vec3 waveNormal = vec3(hL - hR, delta * 2.0, hD - hU);
+		//vec3 waveNormal = normalize(vec3(hL - hR, delta * 2.0, hD - hU));
+		vec3 waveNormal = vec3(hL - hR, delta * 2.0, hD - hU);
 
-	// reducing normal to prevent dark shallows in waves
-	// dark shallows still appear
-		// todo: fix
-	waveNormal.xz *= 0.25;
-	waveNormal = normalize(waveNormal);
+		// reducing normal to prevent dark shallows in waves
+		// dark shallows still appear
+			// todo: fix
+		waveNormal.xz *= 0.25;
+		waveNormal = normalize(waveNormal);
 
-	vec3 normalOut = waveNormal * 0.5 + 0.5;
+		vec3 normalOut = waveNormal * 0.5 + 0.5;
+	#else
+		vec3 normalOut = vec3(0.5, 1.0, 0.5);
+	#endif
 
 	color *= texture(lightmap, lmcoord);
 
