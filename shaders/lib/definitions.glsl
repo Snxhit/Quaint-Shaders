@@ -27,12 +27,15 @@
 // ACES tone mapping
 #define COLOR_MAPPING 1 // [0 1]
 
-// FXAA
+// FXAA (fast approximate anti-aliasinf)
 #define FXAA_ENABLED 1 // [0 1]
 #define FXAA_MIN_THRESHOLD 0.0312
 #define FXAA_MAX_THRESHOLD 0.125
 #define FXAA_ITERATIONS 8
 #define SUBPIXEL_QUALITY 0.75
+
+// SSAO (screen space ambietn occlusion)
+#define SSAO_ENABLED 0 // [0 1]
 
 // environment
 #define WAVING_WATER 1 // [0 1]
