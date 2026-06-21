@@ -114,5 +114,6 @@ void main() {
 		color.rgb = pow(color.rgb, vec3(2.2));
 	#else
 		color.rgb = texture(colortex0, texcoord).rgb;
+		color.rgb = pow(color.rgb, vec3(2.2));
 	#endif
 }
