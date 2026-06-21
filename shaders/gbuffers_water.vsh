@@ -9,6 +9,8 @@ out vec2 texcoord;
 out vec4 glcolor;
 out vec3 worldPos;
 
+#include "/lib/definitions.glsl"
+
 void main() {
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 	lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
@@ -29,7 +31,9 @@ void main() {
 
 			position.y += wave1 + wave2;
 		}
-	#endif
 
-	gl_Position = gl_ModelViewProjectionMatrix * position;
+		gl_Position = gl_ModelViewProjectionMatrix * position;
+	#else
+		gl_Position = ftransform();
+	#endif
 }
