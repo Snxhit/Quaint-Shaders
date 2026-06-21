@@ -125,6 +125,9 @@ void main() {
 		vec3 shadow = getSoftShadow(shadowClipPos);
 		vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow;
 
+		// ts disables shadows, but its just a hack
+		//vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0);
+
 		color.rgb *= blocklight + skylight + ambient + sunlight;
 		color.rgb = pow(color.rgb, vec3(2.2));
 	#else
