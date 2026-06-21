@@ -11,6 +11,8 @@ flat out int vBlockID;
 
 in vec2 mc_Entity;
 
+#include "/lib/definitions.glsl"
+
 void main() {
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 	lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
@@ -20,14 +22,18 @@ void main() {
 	normal = mat3(gbufferModelViewInverse) * normal;
 	vBlockID = int(mc_Entity.x);
 
-	vec4 position = gl_Vertex;
-	if (int(mc_Entity.x) == 3) {
-		float timeScale = frameTimeCounter * 0.8;
-		float wave = sin(timeScale + position.x * 0.5) * cos(timeScale * 0.5 + position.z * 0.5);
-		float swayStrength = 0.04;
-		position.x += wave * swayStrength;
-		position.z += wave * swayStrength;
-	}
+	#if WAVING_FOLIAGE == 1
+		vec4 position = gl_Vertex;
+		if (int(mc_Entity.x) == 3) {
+			float timeScale = frameTimeCounter * 0.8;
+			float wave = sin(timeScale + position.x * 0.5) * cos(timeScale * 0.5 + position.z * 0.5);
+			float swayStrength = 0.04;
+			position.x += wave * swayStrength;
+			position.z += wave * swayStrength;
+		}
 
-	gl_Position = gl_ModelViewProjectionMatrix * position;
+		gl_Position = gl_ModelViewProjectionMatrix * position;
+	#else
+		gl_Position = ftransform();
+	#endif
 }
