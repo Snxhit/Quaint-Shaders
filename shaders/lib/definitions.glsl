@@ -35,7 +35,7 @@
 #define SUBPIXEL_QUALITY 0.75
 
 // SSAO (screen space ambietn occlusion)
-#define SSAO_ENABLED 0 // [0 1]
+#define SSAO_ENABLED 1 // [0 1]
 
 // environment
 #define WAVING_WATER 1 // [0 1]

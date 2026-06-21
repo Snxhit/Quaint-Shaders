@@ -15,8 +15,8 @@ layout(location = 0) out vec4 color;
 
 void main() {
 	#if SSAO_ENABLED == 1
-		color = applySSAO(colortex0, texcoord, depthtex0, gbufferProjectionInverse, gbufferProjection);
+		color.rgb = applySSAO(colortex0, texcoord, depthtex0, gbufferProjectionInverse, gbufferProjection);
 	#else
-		color = texture(colortex0, texcoord).rgb;
+		color.rgb = texture(colortex0, texcoord).rgb;
 	#endif
 }
