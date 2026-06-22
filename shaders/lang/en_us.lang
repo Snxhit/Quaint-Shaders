@@ -50,6 +50,7 @@ screen.ABERRATION_OPTIONS=Chromatic Aberration Options
 screen.EDGE_DETECTION_OPTIONS=Edge Settings
 screen.BLOOM_OPTIONS=Bloom Settings
 screen.FXAA_OPTIONS=FXAA Options
+screen.SSAO_OPTIONS=SSAO Options
 screen.ENVIRONMENT_OPTIONS=Environment Settings
 
 # nested screen options
@@ -90,6 +91,18 @@ value.EXCLUDE_FOLIAGE.1=§aON
 # bloom
 option.BLOOM_THRESHOLD=Bloom Threshold
 option.BLOOM_THRESHOLD.comment=Adjusts threshold required to apply bloom
+
+# SSAO
+option.SSAO_SAMPLES=Samples
+option.SSAO_SAMPLES.comment=Smoothening of shadow, affects FPS
+option.SSAO_RADIUS=Occlusion Radius
+option.SSAO_RADIUS.comment=Shadow radius
+option.SSAO_POWER=Occlusion Magnitude
+option.SSAO_POWER.comment=Increases the occlusion factor
+option.SSAO_BIAS=Bias
+option.SSAO_BIAS.comment=Prevents accidental flat surface shading (Adjust if artifacts)
+option.SSAO_BLUR_SHARPNESS=Blur Sharpness
+option.SSAO_BLUR_SHARPNESS.comment=Adjust crispness of shadow edges
 
 # environment
 option.WAVING_WATER=Waving Water

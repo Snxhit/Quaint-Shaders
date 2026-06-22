@@ -36,6 +36,11 @@
 
 // SSAO (screen space ambient occlusion)
 #define SSAO_ENABLED 1 // [0 1]
+#define SSAO_SAMPLES 16 // [8 16 24 32 48 64]
+#define SSAO_RADIUS 0.45 // [0.15 0.25 0.45 0.75 1.0 1.5]
+#define SSAO_POWER 2.0 // [0.5 1.0 1.5 2.0 3.0 4.0]
+#define SSAO_BIAS 0.03 // [0.01 0.02 0.03 0.05 0.1]
+#define SSAO_BLUR_SHARPNESS 200.0 // [100.0 200.0 300.0]
 
 // environment
 #define WAVING_WATER 1 // [0 1]

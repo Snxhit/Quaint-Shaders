@@ -1,3 +1,5 @@
+#include "/lib/definitions.glsl"
+
 float getNoise(vec2 texcoord) {
     return fract(sin(dot(texcoord, vec2(12.9898, 78.233))) * 43758.5453);
 }
@@ -20,9 +22,9 @@ vec3 applySSAO(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, mat4 gbu
     vec3 viewPos = getViewPos(texcoord, gbufferProjectionInverse);
 
     float occlusion = 0.0;
-    const int samples = 16;
-    float radius = 0.45;
-    float bias = 0.03;
+    const int samples = SSAO_SAMPLES;
+    float radius = SSAO_RADIUS;
+    float bias = SSAO_BIAS;
 
     float angle = getNoise(texcoord * vec2(1920.0, 1808.0));
     float cosA = cos(angle);
@@ -54,7 +56,7 @@ vec3 applySSAO(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, mat4 gbu
 
     float aoFactor = 1.0 - (occlusion / float(samples));
     aoFactor = clamp(aoFactor, 0.0, 1.0);
-    aoFactor = pow(clamp(aoFactor, 0.0, 1.0), 2.0);
+    aoFactor = pow(clamp(aoFactor, 0.0, 1.0), SSAO_POWER);
 
     float blurTotal = 0.0;
     float totalWeight = 0.0;
@@ -65,7 +67,7 @@ vec3 applySSAO(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, mat4 gbu
             vec2 offset = vec2(float(x), float(y)) * texelSize;
             float depthCheck = texture(depthtex0, texcoord + offset).x;
             
-            float weight = max(0.0, 1.0 - abs(depthCheck - depth) * 200.0);
+            float weight = max(0.0, 1.0 - abs(depthCheck - depth) * SSAO_BLUR_SHARPNESS);
             blurTotal += aoFactor * weight;
             totalWeight += weight;
         }
