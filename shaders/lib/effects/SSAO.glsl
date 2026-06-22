@@ -21,7 +21,7 @@ vec3 applySSAO(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, mat4 gbu
 
     float occlusion = 0.0;
     const int samples = 16;
-    float radius = 0.35;
+    float radius = 0.45;
     float bias = 0.03;
 
     float angle = getNoise(texcoord * vec2(1920.0, 1808.0));
@@ -54,6 +54,7 @@ vec3 applySSAO(sampler2D colortex0, vec2 texcoord, sampler2D depthtex0, mat4 gbu
 
     float aoFactor = 1.0 - (occlusion / float(samples));
     aoFactor = clamp(aoFactor, 0.0, 1.0);
+    aoFactor = pow(clamp(aoFactor, 0.0, 1.0), 2.0);
 
     float blurTotal = 0.0;
     float totalWeight = 0.0;
