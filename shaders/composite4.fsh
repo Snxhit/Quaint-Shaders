@@ -5,7 +5,7 @@ uniform float viewHeight;
 uniform float viewWidth;
 
 #include "/lib/definitions.glsl"
-#include "/lib/effects/fxaa.glsl"
+#include "/lib/effects/FXAA.glsl"
 
 in vec2 texcoord;
 
