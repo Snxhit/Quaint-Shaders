@@ -29,10 +29,10 @@
 
 // FXAA (fast approximate anti-aliasinf)
 #define FXAA_ENABLED 1 // [0 1]
-#define FXAA_MIN_THRESHOLD 0.0312
-#define FXAA_MAX_THRESHOLD 0.125
-#define FXAA_ITERATIONS 8
-#define SUBPIXEL_QUALITY 0.75
+#define FXAA_MIN_THRESHOLD 0.0312 // [0.0312 0.0625 0.0833]
+#define FXAA_MAX_THRESHOLD 0.125 // [0.063 0.125 0.166 0.25 0.33]
+#define FXAA_ITERATIONS 8 // [4 8 12 16 24]
+#define SUBPIXEL_QUALITY 0.75 // [0.25 0.5 0.75 1.00]
 
 // SSAO (screen space ambient occlusion)
 #define SSAO_ENABLED 1 // [0 1]

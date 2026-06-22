@@ -92,6 +92,16 @@ value.EXCLUDE_FOLIAGE.1=§aON
 option.BLOOM_THRESHOLD=Bloom Threshold
 option.BLOOM_THRESHOLD.comment=Adjusts threshold required to apply bloom
 
+# FXAA
+option.FXAA_MIN_THRESHOLD=Min Threshold
+option.FXAA_MIN_THRESHOLD.comment=Minimum brightness to pass
+option.FXAA_MAX_THRESHOLD=Max Threshold
+option.FXAA_MAX_THRESHOLD.comment=Edge detection sensitivity
+option.FXAA_ITERATIONS=Iterations
+option.FXAA_ITERATIONS.comment=Quality steps per edge
+option.SUBPIXEL_QUALITY=Subpixel Quality
+option.SUBPIXEL_QUALITY.comment=Blurring of thin edges and particles
+
 # SSAO
 option.SSAO_SAMPLES=Samples
 option.SSAO_SAMPLES.comment=Smoothening of shadow, affects FPS
