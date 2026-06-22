@@ -34,7 +34,7 @@
 #define FXAA_ITERATIONS 8
 #define SUBPIXEL_QUALITY 0.75
 
-// SSAO (screen space ambietn occlusion)
+// SSAO (screen space ambient occlusion)
 #define SSAO_ENABLED 1 // [0 1]
 
 // environment
