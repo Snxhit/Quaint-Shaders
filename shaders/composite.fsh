@@ -91,47 +91,44 @@ float getSunlightColor() {
 layout(location = 0) out vec4 color;
 
 void main() {
-	#if CUSTOM_LIGHTING == 1
-		color = texture(colortex0, texcoord);
-		vec2 lightmap = texture(colortex1, texcoord).rg;
-		vec3 encodedNormal = texture(colortex2, texcoord).rgb;
-		vec3 normal = normalize((encodedNormal - 0.5) * 2.0);
-		vec3 lightVector = normalize(shadowLightPosition);
-		vec3 worldLightVector = mat3(gbufferModelViewInverse) * lightVector;
+	color = texture(colortex0, texcoord);
+	vec2 lightmap = texture(colortex1, texcoord).rg;
+	vec3 encodedNormal = texture(colortex2, texcoord).rgb;
+	vec3 normal = normalize((encodedNormal - 0.5) * 2.0);
+	vec3 lightVector = normalize(shadowLightPosition);
+	vec3 worldLightVector = mat3(gbufferModelViewInverse) * lightVector;
 
-		const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
-		const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-		vec3 baseSunlightColor = vec3(getSunlightColor());
-		const vec3 rainSunlightColor = vec3(0.15, 0.18, 0.22);
-		vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, rainStrength);
-		const vec3 ambientColor = vec3(0.2);
+	const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
+	const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
+	vec3 baseSunlightColor = vec3(getSunlightColor());
+	const vec3 rainSunlightColor = vec3(0.15, 0.18, 0.22);
+	vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, rainStrength);
+	const vec3 ambientColor = vec3(0.2);
 
-		vec3 blocklight = lightmap.r * blocklightColor;
-		vec3 skylight = lightmap.g * skylightColor;
-		vec3 ambient = ambientColor;
-		//vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * lightmap.g;
+	vec3 blocklight = lightmap.r * blocklightColor;
+	vec3 skylight = lightmap.g * skylightColor;
+	vec3 ambient = ambientColor;
+	//vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * lightmap.g;
 
-		float depth = texture(depthtex0, texcoord).r;
-		if (depth == 1.0) {
-			return;
-		}
+	float depth = texture(depthtex0, texcoord).r;
+	if (depth == 1.0) {
+		return;
+	}
 
-		vec3 NDCPos = vec3(texcoord.xy, depth) * 2.0 - 1.0;
-		vec3 viewPos = projectAndDivide(gbufferProjectionInverse, NDCPos);
-		vec3 feetPlayerPos = (gbufferModelViewInverse * vec4(viewPos, 1.0)).xyz;
-		vec3 shadowViewPos = (shadowModelView * vec4(feetPlayerPos, 1.0)).xyz;
-		vec4 shadowClipPos = shadowProjection * vec4(shadowViewPos, 1.0);
+	vec3 NDCPos = vec3(texcoord.xy, depth) * 2.0 - 1.0;
+	vec3 viewPos = projectAndDivide(gbufferProjectionInverse, NDCPos);
+	vec3 feetPlayerPos = (gbufferModelViewInverse * vec4(viewPos, 1.0)).xyz;
+	vec3 shadowViewPos = (shadowModelView * vec4(feetPlayerPos, 1.0)).xyz;
+	vec4 shadowClipPos = shadowProjection * vec4(shadowViewPos, 1.0);
 
-		vec3 shadow = getSoftShadow(shadowClipPos);
+	vec3 shadow = getSoftShadow(shadowClipPos);
+
+	#if SHADOWS == 1
 		vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0) * shadow;
-
-		// ts disables shadows, but its just a hack
-		//vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0);
-
-		color.rgb *= blocklight + skylight + ambient + sunlight;
-		color.rgb = pow(color.rgb, vec3(2.2));
 	#else
-		color.rgb = texture(colortex0, texcoord).rgb;
-		color.rgb = pow(color.rgb, vec3(2.2));
+		vec3 sunlight = sunlightColor * clamp(dot(worldLightVector, normal), 0.0, 1.0);
 	#endif
+
+	color.rgb *= blocklight + skylight + ambient + sunlight;
+	color.rgb = pow(color.rgb, vec3(2.2));
 }

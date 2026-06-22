@@ -1,5 +1,5 @@
 // custom lighting & shadows
-#define CUSTOM_LIGHTING 1 // [0 1]
+#define SHADOWS 1 // [0 1]
 #define SHADOW_RADIUS 2 // [1 2 3 4]
 #define SHADOW_RANGE 4 // [3 4 5]
 

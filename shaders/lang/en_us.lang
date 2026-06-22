@@ -1,8 +1,8 @@
 # on/off settings
-option.CUSTOM_LIGHTING=Shadows & Lighting
-option.CUSTOM_LIGHTING.comment=Toggles shadows & custom lighting
-value.CUSTOM_LIGHTING.0=§cOFF
-value.CUSTOM_LIGHTING.1=§aON
+option.SHADOWS=Shadows
+option.SHADOWS.comment=Toggles shadows
+value.SHADOWS.0=§cOFF
+value.SHADOWS.1=§aON
 
 option.FOG_ON=Fog
 option.FOG_ON.comment=Toggles distant fog
