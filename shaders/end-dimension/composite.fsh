@@ -81,12 +81,6 @@ vec3 getSoftShadow(vec4 shadowClipPos) {
 	return shadowAccum / float(samples);
 }
 
-float getSunlightColor() {
-	float dayFactor = smoothstep(12000.0, 13000.0, float(worldTime)) * (1.0 - smoothstep(23000.0, 24000.0, float(worldTime)));
-	float sunMask = 1.0 - dayFactor;
-	return mix(0.3, 1.0, sunMask);
-}
-
 /* RENDERTARGETS: 0 */
 layout(location = 0) out vec4 color;
 
@@ -98,12 +92,10 @@ void main() {
 	vec3 lightVector = normalize(shadowLightPosition);
 	vec3 worldLightVector = mat3(gbufferModelViewInverse) * lightVector;
 
-	const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
+	const vec3 blocklightColor = vec3(0.5, 0.5, 0.08);
 	const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
-	vec3 baseSunlightColor = vec3(getSunlightColor());
-	const vec3 rainSunlightColor = vec3(0.15, 0.18, 0.22);
-	vec3 sunlightColor = mix(baseSunlightColor, rainSunlightColor, rainStrength);
-	const vec3 ambientColor = vec3(0.2);
+	vec3 sunlightColor = vec3(0.7);
+	const vec3 ambientColor = vec3(0.05);
 
 	vec3 blocklight = lightmap.r * blocklightColor;
 	vec3 skylight = lightmap.g * skylightColor;
