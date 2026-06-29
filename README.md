@@ -61,13 +61,13 @@ This project was created in [Macondo](https://macondo.hackclub.com)!<br>
 
 ### Requires Iris! Supports Windows, MacOS & Linux!
 
-- **Install from Modrinth (Not live yet)**
+- **Install from Modrinth**
 
-   Find the Quaint Shaders Modrinth page [here](https://github.com/Snxhit/Quaint-Shaders)!
+   Find the Quaint Shaders Modrinth page [here](https://modrinth.com/shader/quaint-shaders)!
 
 #### Or, alternatively
 
-- **Install from GitHub Releases (Not live yet)**
+- **Install from GitHub Releases**
 
     Download the file [here](https://github.com/Snxhit/Quaint-Shaders/releases) and place it in your `/shaderpacks` folder.
 
